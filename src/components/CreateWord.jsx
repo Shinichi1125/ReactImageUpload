@@ -33,16 +33,36 @@ class CreateWord extends React.Component{
     await this.setState({wordData : stateUpdate})
   }
 
-  onChange(e){
+  getBase64(file){
+    return new Promise((resolve, reject) => {
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function(){
+        console.log("Inside the onload:");
+        console.log(reader.result);
+        resolve(reader)
+      };
+      reader.onerror = function(error){
+        console.log('Error: ', error);
+        reject(error)
+      }
+    })
+  } 
+
+  async onChange(e){
     const chosenFile = e.currentTarget.files[0];
     console.log("The value of chosenFile:");
     console.log(chosenFile);
 
+    const convertedFile = await this.getBase64(chosenFile);
+    console.log("The value of convertedFile: ");
+    console.log(convertedFile); 
+
     let tempWordData = this.state.wordData;
-    tempWordData.image = chosenFile;
+    tempWordData.image = chosenFile;  //convertedFile;
     this.awaitSetState(tempWordData);
-    console.log("The value of this.state.wordData.image: ");
-    console.log(this.state.wordData.image);
+    console.log("The value of this.state.wordData: ");
+    console.log(this.state.wordData);
   }  
 
   onSubmit(values){
