@@ -21,6 +21,12 @@ class UpdateWord extends React.Component{
     }
 
     this.onSubmit = this.onSubmit.bind(this)
+    this.onChange = this.onChange.bind(this)
+    this.awaitSetState = this.awaitSetState.bind(this)
+  }
+
+  async awaitSetState(stateUpdate){
+    await this.setState({wordData : stateUpdate})
   }
 
   componentDidMount(){
@@ -34,7 +40,20 @@ class UpdateWord extends React.Component{
     }) 
   }
 
+  onChange(e){
+    const chosenFile = e.currentTarget.files[0];
+    console.log("The value of chosenFile:");
+    console.log(chosenFile);
+
+    let tempWordData = this.state.wordData;
+    tempWordData.image = chosenFile;  
+    this.awaitSetState(tempWordData);
+    console.log("The value of this.state.wordData: ");
+    console.log(this.state.wordData);
+  }  
+
   onSubmit(values){
+    values.createdDate = new Date(values.createdDate);
     let word = values;
     let id = word.id;
 
@@ -83,6 +102,10 @@ class UpdateWord extends React.Component{
                   <fieldset>
                     <label>Date</label>&nbsp;
                     <Field type="text" name="createdDate"/>
+                  </fieldset>
+                  <fieldset>
+                    <label>Image</label>&nbsp;
+                    <input id="image" type="file" name="image" onChange={this.onChange}/>
                   </fieldset>
                   <button type="submit">Save</button>
                 </Form>

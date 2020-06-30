@@ -10,6 +10,19 @@ class WordsDataService {
     return axios.get(`${API_URL}/words/${id}`);
   }  
 
+  makeFormData(word){
+    const formData = new FormData();
+    formData.append('id', word.id);
+    formData.append('ownLangWordName', word.ownLangWordName);
+    formData.append('targetLangWordName', word.targetLangWordName);
+    formData.append('ownLangExSentence', word.ownLangExSentence);
+    formData.append('targetLangExSentence', word.targetLangExSentence);
+    formData.append('createdDate', word.createdDate.toISOString());
+    formData.append('image', word.image);
+
+    return formData; 
+  }
+
   createWord(word){
     const formData = new FormData();
     formData.append('id', word.id);
@@ -30,7 +43,22 @@ class WordsDataService {
   }
 
   updateWord(id, word){
-    return axios.put(`${API_URL}/words/${id}`, word);
+    const formData = new FormData();
+    formData.append('id', word.id);
+    formData.append('ownLangWordName', word.ownLangWordName);
+    formData.append('targetLangWordName', word.targetLangWordName);
+    formData.append('ownLangExSentence', word.ownLangExSentence);
+    formData.append('targetLangExSentence', word.targetLangExSentence);
+    formData.append('createdDate', word.createdDate.toISOString());
+    formData.append('image', word.image);
+    const config = {
+      headers: {
+          'content-type': 'multipart/form-data'
+      }
+    } 
+    console.log("The content of the parameter: ");
+    console.log(word);
+    return axios.put(`${API_URL}/words/${id}`, formData, config);
   }
 
   deleteWord(id){
