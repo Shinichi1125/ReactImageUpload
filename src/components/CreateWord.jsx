@@ -33,7 +33,7 @@ class CreateWord extends React.Component{
     await this.setState({wordData : stateUpdate})
   }
 
-  getBase64(file){
+/*  getBase64(file){
     return new Promise((resolve, reject) => {
       let reader = new FileReader();
       reader.readAsDataURL(file);
@@ -47,16 +47,16 @@ class CreateWord extends React.Component{
         reject(error)
       }
     })
-  } 
+  } */
 
-  async onChange(e){
+  /*async*/ onChange(e){
     const chosenFile = e.currentTarget.files[0];
     console.log("The value of chosenFile:");
     console.log(chosenFile);
 
-    const convertedFile = await this.getBase64(chosenFile);
+    /*const convertedFile = await this.getBase64(chosenFile);
     console.log("The value of convertedFile: ");
-    console.log(convertedFile); 
+    console.log(convertedFile);  */
 
     let tempWordData = this.state.wordData;
     tempWordData.image = chosenFile;  //convertedFile;
@@ -133,6 +133,5 @@ class CreateWord extends React.Component{
     )
   }
 }
-
 
 export default CreateWord; 
